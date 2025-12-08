@@ -1,13 +1,8 @@
 package de.omegazirkel.risingworld;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
 
+import de.omegazirkel.risingworld.template.PluginSettings;
 import de.omegazirkel.risingworld.tools.Colors;
 import de.omegazirkel.risingworld.tools.FileChangeListener;
 import de.omegazirkel.risingworld.tools.I18n;
@@ -23,6 +18,7 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 	static final String pluginCMD = "mt";
 	static final Colors c = Colors.getInstance();
 	private static I18n t = null;
+	private static PluginSettings s = null;
 
 	public static OZLogger logger() {
 		return OZLogger.getInstance("MavenTemplate");
@@ -30,8 +26,10 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 
 	@Override
 	public void onEnable() {
-		t = new I18n(this);
+		s = PluginSettings.getInstance(this);
+		t = I18n.getInstance(this);
 		registerEventListener(this);
+		s.initSettings();
 	}
 
 	@Override
@@ -40,7 +38,7 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 
 	@Override
 	public void onSettingsChanged(Path settingsPath) {
-		initSettings(settingsPath.toString());
+		s.initSettings(settingsPath.toString());
 	}
 
 	@EventMethod
@@ -72,41 +70,6 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 				default:
 					break;
 			}
-		}
-	}
-
-	private void initSettings(String filePath) {
-		Path settingsFile = Paths.get(filePath);
-		Path defaultSettingsFile = settingsFile.resolveSibling("settings.default.properties");
-
-		try {
-			if (Files.notExists(settingsFile) && Files.exists(defaultSettingsFile)) {
-				logger().info("settings.properties not found, copying from settings.default.properties...");
-				Files.copy(defaultSettingsFile, settingsFile);
-			}
-
-			Properties settings = new Properties();
-			if (Files.exists(settingsFile)) {
-				try (FileInputStream in = new FileInputStream(settingsFile.toFile())) {
-					settings.load(new InputStreamReader(in, "UTF8"));
-				}
-			} else {
-				logger().warn(
-						"⚠️ Neither settings.properties nor settings.default.properties found. Using default values.");
-			}
-			// fill properties
-			// myBooleanProperty = settings.getProperty("booleanProperty",
-			// "false").contentEquals("true");
-			// myStringProperty = settings.getProperty("stringProperty", "");
-
-			logger().info(this.getName() + " Plugin settings loaded");
-
-		} catch (IOException ex) {
-			logger().error("IOException on initSettings: " + ex.getMessage());
-			ex.printStackTrace();
-		} catch (NumberFormatException ex) {
-			logger().error("NumberFormatException on initSettings: " + ex.getMessage());
-			ex.printStackTrace();
 		}
 	}
 
