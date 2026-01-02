@@ -4,17 +4,20 @@ import java.nio.file.Path;
 
 import de.omegazirkel.risingworld.template.PluginGUI;
 import de.omegazirkel.risingworld.template.PluginSettings;
+import de.omegazirkel.risingworld.template.ui.TemplatePlayerPluginSettings;
 import de.omegazirkel.risingworld.tools.Colors;
 import de.omegazirkel.risingworld.tools.FileChangeListener;
 import de.omegazirkel.risingworld.tools.I18n;
 import de.omegazirkel.risingworld.tools.OZLogger;
 import de.omegazirkel.risingworld.tools.ui.AssetManager;
 import de.omegazirkel.risingworld.tools.ui.MenuItem;
+import de.omegazirkel.risingworld.tools.ui.PlayerPluginSettingsOverlay;
 import de.omegazirkel.risingworld.tools.ui.PluginMenuManager;
 import net.risingworld.api.Plugin;
 import net.risingworld.api.events.EventMethod;
 import net.risingworld.api.events.Listener;
 import net.risingworld.api.events.player.PlayerCommandEvent;
+import net.risingworld.api.events.player.PlayerSpawnEvent;
 import net.risingworld.api.objects.Player;
 
 public class MavenTemplate extends Plugin implements Listener, FileChangeListener {
@@ -44,6 +47,9 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 						new MenuItem(AssetManager.getIcon("template-icon"), "Template Plugin", (Player p) -> {
 							gui.openMainMenu(p);
 						}));
+		// FIXME rename Template stuff for a new plugin
+		// register plugin settings
+		PlayerPluginSettingsOverlay.registerPlayerPluginSettings(new TemplatePlayerPluginSettings());
 		logger().info("✅ " + this.getName() + " Plugin is enabled version:" + this.getDescription("version"));
 	}
 
@@ -96,5 +102,19 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 			}
 		}
 	}
+
+	@EventMethod
+    public void onPlayerSpawnEvent(PlayerSpawnEvent event) {
+        Player player = event.getPlayer();
+
+        if (s.enableWelcomeMessage) {
+            // Player player = event.getPlayer();
+            String lang = player.getSystemLanguage();
+            player.sendTextMessage(t.get("TC_MSG_PLUGIN_WELCOME", lang)
+                    .replace("PH_PLUGIN_NAME", getDescription("name"))
+                    .replace("PH_PLUGIN_CMD", pluginCMD)
+                    .replace("PH_PLUGIN_VERSION", getDescription("version")));
+        }
+    }
 
 }

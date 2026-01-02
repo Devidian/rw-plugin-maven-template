@@ -25,7 +25,7 @@ public class PluginSettings {
 	// Settings
 	public String logLevel = Level.DEBUG.name();
 	public boolean reloadOnChange = false;
-	public boolean sendPluginWelcome = false;
+	public boolean enableWelcomeMessage = false;
 
 	// END Settings
 
@@ -73,10 +73,10 @@ public class PluginSettings {
 			reloadOnChange = settings.getProperty("reloadOnChange", "false").contentEquals("true");
 
 			// motd settings
-			sendPluginWelcome = settings.getProperty("sendPluginWelcome", "false").contentEquals("true");
+			enableWelcomeMessage = settings.getProperty("sendPluginWelcome", "false").contentEquals("true");
 
 			logger().info(plugin.getName() + " Plugin settings loaded");
-			logger().info("Sending welcome message on login is: " + String.valueOf(sendPluginWelcome));
+			logger().info("Sending welcome message on login is: " + String.valueOf(enableWelcomeMessage));
 			logger().info("Loglevel is set to " + logLevel);
 			logger().setLevel(logLevel);
 
