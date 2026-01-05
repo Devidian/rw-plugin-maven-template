@@ -5,8 +5,6 @@ import de.omegazirkel.risingworld.tools.ui.BasePlayerPluginSettingsPanel;
 import de.omegazirkel.risingworld.tools.ui.PlayerPluginSettings;
 import net.risingworld.api.objects.Player;
 import net.risingworld.api.ui.UILabel;
-import net.risingworld.api.ui.UIScrollView;
-import net.risingworld.api.ui.UIScrollView.ScrollViewMode;
 
 public class TemplatePlayerPluginSettings extends PlayerPluginSettings {
 
@@ -17,14 +15,15 @@ public class TemplatePlayerPluginSettings extends PlayerPluginSettings {
     @Override
     public BasePlayerPluginSettingsPanel createPlayerPluginSettingsUIElement(Player uiPlayer) {
         return new BasePlayerPluginSettingsPanel(uiPlayer, pluginLabel) {
+            
             @Override
-            protected UIScrollView createSettingsContent() {
-                UIScrollView content = new UIScrollView(ScrollViewMode.Vertical);
+            protected void redrawContent() {
+                flexWrapper.removeAllChilds();
                 // TODO: implement actual settings content for MavenTemplate plugin
                 UILabel placeholderLabel = new UILabel("MavenTemplate plugin settings will be here.");
-                content.addChild(placeholderLabel);
-                return content;
+                flexWrapper.addChild(placeholderLabel);
             }
+
         };
     }
 
