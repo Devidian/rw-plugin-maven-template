@@ -63,7 +63,7 @@
         <dependency>
             <groupId>com.github.devidian</groupId>
             <artifactId>rw-plugin-oz-tools</artifactId>
-            <version>0.14.0</version>
+            <version>0.15.0</version>
         </dependency>
 
         <!-- Rising World PluginAPI -->
@@ -209,7 +209,8 @@
                                 <resource>
                                     <directory>${basedir}</directory>
                                     <includes>
-                                        <include>*.md</include>
+                                        <include>README.md</include>
+                                        <include>HISTORY.md</include>
                                     </includes>
                                 </resource>
                             </resources>

@@ -73,7 +73,7 @@ public class PluginSettings {
 			reloadOnChange = settings.getProperty("reloadOnChange", "false").contentEquals("true");
 
 			// motd settings
-			enableWelcomeMessage = settings.getProperty("sendPluginWelcome", "false").contentEquals("true");
+			enableWelcomeMessage = settings.getProperty("enableWelcomeMessage", "false").contentEquals("true");
 
 			logger().info(plugin.getName() + " Plugin settings loaded");
 			logger().info("Sending welcome message on login is: " + String.valueOf(enableWelcomeMessage));
