@@ -48,6 +48,9 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 							gui.openMainMenu(p);
 						}));
 		// FIXME rename Template stuff for a new plugin
+		// connect plugins
+		// DiscordConnect.init(this);
+		// Wallet.init(this);
 		// register plugin settings
 		PlayerPluginSettingsOverlay.registerPlayerPluginSettings(new TemplatePlayerPluginSettings());
 		logger().info("✅ " + this.getName() + " Plugin is enabled version:" + this.getDescription("version"));
