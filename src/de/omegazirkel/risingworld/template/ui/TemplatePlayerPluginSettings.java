@@ -6,6 +6,8 @@ import de.omegazirkel.risingworld.tools.ui.PlayerPluginSettings;
 import net.risingworld.api.objects.Player;
 import net.risingworld.api.ui.UILabel;
 
+/* This is an example, rename <Template> if you use this feature */
+
 public class TemplatePlayerPluginSettings extends PlayerPluginSettings {
 
     public TemplatePlayerPluginSettings() {
