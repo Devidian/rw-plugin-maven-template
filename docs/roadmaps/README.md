@@ -1,5 +1,7 @@
 # Roadmaps
 
+- [Roadmap Plan 01 Template Baseline](roadmap-plan-01-template-baseline.md)
+
 Large implementation plans and long-lived roadmap documents live here.
 
 ## Template

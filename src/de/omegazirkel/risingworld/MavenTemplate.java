@@ -4,11 +4,13 @@ import java.nio.file.Path;
 
 import de.omegazirkel.risingworld.template.PluginGUI;
 import de.omegazirkel.risingworld.template.PluginSettings;
+import de.omegazirkel.risingworld.template.ui.TemplatePlayerPluginData;
 import de.omegazirkel.risingworld.template.ui.TemplatePlayerPluginSettings;
 import de.omegazirkel.risingworld.tools.Colors;
 import de.omegazirkel.risingworld.tools.FileChangeListener;
 import de.omegazirkel.risingworld.tools.I18n;
 import de.omegazirkel.risingworld.tools.OZLogger;
+import de.omegazirkel.risingworld.tools.settings.PlayerPluginAdminSettings;
 import de.omegazirkel.risingworld.tools.ui.AssetManager;
 import de.omegazirkel.risingworld.tools.ui.MenuItem;
 import de.omegazirkel.risingworld.tools.ui.PlayerPluginSettingsOverlay;
@@ -52,7 +54,11 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 		// DiscordConnect.init(this);
 		// Wallet.init(this);
 		// register plugin settings
-		PlayerPluginSettingsOverlay.registerPlayerPluginSettings(new TemplatePlayerPluginSettings());
+		PlayerPluginSettingsOverlay.registerPlayerPluginSettings(new TemplatePlayerPluginSettings(getDescription("version")));
+		PlayerPluginSettingsOverlay.registerPlayerPluginData(new TemplatePlayerPluginData(getDescription("version")));
+		PlayerPluginSettingsOverlay.registerPlayerPluginAdminSettings(
+				new PlayerPluginAdminSettings(name, getDescription("version"), () -> s.adminSettingsEntries(),
+						s::initSettings));
 		logger().info("✅ " + this.getName() + " Plugin is enabled version:" + this.getDescription("version"));
 	}
 

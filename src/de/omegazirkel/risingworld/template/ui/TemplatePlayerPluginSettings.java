@@ -10,8 +10,9 @@ import net.risingworld.api.ui.UILabel;
 
 public class TemplatePlayerPluginSettings extends PlayerPluginSettings {
 
-    public TemplatePlayerPluginSettings() {
+    public TemplatePlayerPluginSettings(String pluginVersion) {
         this.pluginLabel = MavenTemplate.name;
+        this.pluginVersion = pluginVersion;
     }
 
     @Override

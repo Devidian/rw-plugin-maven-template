@@ -6,12 +6,17 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.logging.log4j.Level;
 
 import de.omegazirkel.risingworld.MavenTemplate;
 import de.omegazirkel.risingworld.tools.OZLogger;
+import de.omegazirkel.risingworld.tools.settings.AdminSettingsEntry;
+import de.omegazirkel.risingworld.tools.settings.AdminSettingsType;
+import de.omegazirkel.risingworld.tools.settings.SettingsFileEditor;
 
 public class PluginSettings {
 	private static PluginSettings instance = null;
@@ -26,6 +31,9 @@ public class PluginSettings {
 	public String logLevel = Level.DEBUG.name();
 	public boolean reloadOnChange = false;
 	public boolean enableWelcomeMessage = false;
+	private Path settingsFile;
+	private Properties currentSettings = new Properties();
+	private Properties defaultSettings = new Properties();
 
 	// END Settings
 
@@ -50,7 +58,7 @@ public class PluginSettings {
 	}
 
 	public void initSettings(String filePath) {
-		Path settingsFile = Paths.get(filePath);
+		settingsFile = Paths.get(filePath);
 		Path defaultSettingsFile = settingsFile.resolveSibling("settings.default.properties");
 
 		try {
@@ -60,6 +68,12 @@ public class PluginSettings {
 			}
 
 			Properties settings = new Properties();
+			Properties defaults = new Properties();
+			if (Files.exists(defaultSettingsFile)) {
+				try (FileInputStream in = new FileInputStream(defaultSettingsFile.toFile())) {
+					defaults.load(new InputStreamReader(in, "UTF8"));
+				}
+			}
 			if (Files.exists(settingsFile)) {
 				try (FileInputStream in = new FileInputStream(settingsFile.toFile())) {
 					settings.load(new InputStreamReader(in, "UTF8"));
@@ -69,16 +83,21 @@ public class PluginSettings {
 						"⚠️ Neither settings.properties nor settings.default.properties found. Using default values.");
 			}
 			// fill global values
-			logLevel = settings.getProperty("logLevel", "ALL");
-			reloadOnChange = settings.getProperty("reloadOnChange", "false").contentEquals("true");
+			logLevel = settings.getProperty("logLevel", defaults.getProperty("logLevel", "ALL"));
+			reloadOnChange = settings.getProperty("reloadOnChange", defaults.getProperty("reloadOnChange", "true"))
+					.contentEquals("true");
 
 			// motd settings
-			enableWelcomeMessage = settings.getProperty("enableWelcomeMessage", "false").contentEquals("true");
+			enableWelcomeMessage = settings
+					.getProperty("enableWelcomeMessage", defaults.getProperty("enableWelcomeMessage", "false"))
+					.contentEquals("true");
 
 			logger().info(plugin.getName() + " Plugin settings loaded");
 			logger().info("Sending welcome message on login is: " + String.valueOf(enableWelcomeMessage));
 			logger().info("Loglevel is set to " + logLevel);
 			logger().setLevel(logLevel);
+			currentSettings = settings;
+			defaultSettings = defaults;
 
 		} catch (IOException ex) {
 			logger().error("IOException on initSettings: " + ex.getMessage());
@@ -87,5 +106,37 @@ public class PluginSettings {
 			logger().error("NumberFormatException on initSettings: " + ex.getMessage());
 			ex.printStackTrace();
 		}
+	}
+
+	public List<AdminSettingsEntry> adminSettingsEntries() {
+		return Arrays.asList(
+				entry("logLevel", "Log level", "Controls plugin logging verbosity.", AdminSettingsType.STRING),
+				entry("reloadOnChange", "Reload on change",
+						"If true, this plugin reloads settings when settings.properties changes.",
+						AdminSettingsType.BOOLEAN),
+				entry("enableWelcomeMessage", "Welcome message",
+						"If true, this plugin sends a welcome message when a player joins.",
+						AdminSettingsType.BOOLEAN),
+				new AdminSettingsEntry(
+						"exampleSecret",
+						"Example secret",
+						"Template example for a sensitive value. Replace or remove in real plugins.",
+						"",
+						"",
+						AdminSettingsType.STRING,
+						true,
+						null));
+	}
+
+	private AdminSettingsEntry entry(String key, String label, String description, AdminSettingsType type) {
+		return new AdminSettingsEntry(
+				key,
+				label,
+				description,
+				currentSettings.getProperty(key, defaultSettings.getProperty(key, "")),
+				defaultSettings.getProperty(key, ""),
+				type,
+				false,
+				value -> SettingsFileEditor.writeValue(settingsFile, key, value));
 	}
 }

@@ -20,6 +20,19 @@ Use this repository as template for new Rising World Plugins.
   - for your changelog
 - [README.md](README.md)
   - this file, override it as you like
+- [DESIGN.md](DESIGN.md)
+  - synchronized portfolio UI/design baseline; keep it aligned with the root copy
+
+## Baseline behavior
+
+- Requires `rw-plugin-oz-tools`.
+- Uses the shared file watcher path by implementing `FileChangeListener`; changes
+  to `settings.properties` reload plugin settings.
+- Defaults `reloadOnChange=true` in `settings.default.properties`.
+- Registers player settings, player data, and admin-only `PluginSettings`
+  metadata with `PlayerPluginSettingsOverlay`.
+- Includes sample admin settings metadata for booleans and strings, plus a hidden
+  sensitive value example that should be replaced or removed in real plugins.
 
 ## Contributor Workflow
 
