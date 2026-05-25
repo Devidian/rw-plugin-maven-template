@@ -4,6 +4,9 @@
 
 ## [unreleased]
 
+- refactor: route the template status command to the shared Tools Info/Status panel
+- feat: scaffold shared Tools UI, indicator, info/status, grouped settings, and logger conventions
+- refactor: remove feature-plugin integration helper stubs from the generic template baseline
 - build: align template Tools dependency with 0.18.0 shared settings baseline
 - feat: add admin-only `PluginSettings` metadata registration example
 - feat: default `reloadOnChange` to true in template settings

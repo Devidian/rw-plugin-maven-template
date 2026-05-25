@@ -98,7 +98,7 @@
 
         <plugins>
 
-            <!-- clear DiscordConnect directory -->
+            <!-- clear plugin dist directory -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>

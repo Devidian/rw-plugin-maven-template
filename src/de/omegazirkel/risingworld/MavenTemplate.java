@@ -4,6 +4,7 @@ import java.nio.file.Path;
 
 import de.omegazirkel.risingworld.template.PluginGUI;
 import de.omegazirkel.risingworld.template.PluginSettings;
+import de.omegazirkel.risingworld.template.ui.TemplatePluginInfoStatusProvider;
 import de.omegazirkel.risingworld.template.ui.TemplatePlayerPluginData;
 import de.omegazirkel.risingworld.template.ui.TemplatePlayerPluginSettings;
 import de.omegazirkel.risingworld.tools.Colors;
@@ -12,9 +13,13 @@ import de.omegazirkel.risingworld.tools.I18n;
 import de.omegazirkel.risingworld.tools.OZLogger;
 import de.omegazirkel.risingworld.tools.settings.PlayerPluginAdminSettings;
 import de.omegazirkel.risingworld.tools.ui.AssetManager;
+import de.omegazirkel.risingworld.tools.ui.InventoryOverlayButtons;
 import de.omegazirkel.risingworld.tools.ui.MenuItem;
 import de.omegazirkel.risingworld.tools.ui.PlayerPluginSettingsOverlay;
+import de.omegazirkel.risingworld.tools.ui.PluginInfoStatusProviders;
 import de.omegazirkel.risingworld.tools.ui.PluginMenuManager;
+import de.omegazirkel.risingworld.tools.ui.SharedIndicatorProvider;
+import de.omegazirkel.risingworld.tools.ui.SharedIndicators;
 import net.risingworld.api.Plugin;
 import net.risingworld.api.events.EventMethod;
 import net.risingworld.api.events.Listener;
@@ -24,6 +29,7 @@ import net.risingworld.api.objects.Player;
 
 public class MavenTemplate extends Plugin implements Listener, FileChangeListener {
 	static final String pluginCMD = "mt";
+	private static final String LOGGER_NAME = "MavenTemplate";
 	static final Colors c = Colors.getInstance();
 	private static I18n t = null;
 	private static PluginSettings s = null;
@@ -31,7 +37,7 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 	public static String name;
 
 	public static OZLogger logger() {
-		return OZLogger.getInstance("MavenTemplate");
+		return OZLogger.getInstance(LOGGER_NAME);
 	}
 
 	@Override
@@ -49,10 +55,21 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 						new MenuItem(AssetManager.getIcon("template-icon"), "Template Plugin", (Player p) -> {
 							gui.openMainMenu(p);
 						}));
-		// FIXME rename Template stuff for a new plugin
-		// connect plugins
-		// DiscordConnect.init(this);
-		// Wallet.init(this);
+		InventoryOverlayButtons.registerButton(name, "Open", "template-icon",
+				event -> gui.openMainMenu(event.getPlayer()));
+		SharedIndicators.registerProvider(name, new SharedIndicatorProvider() {
+			@Override
+			public boolean showIndicator(Player player) {
+				return false;
+			}
+
+			@Override
+			public String getIcon(Player player) {
+				return "template-icon";
+			}
+		});
+		PluginInfoStatusProviders
+				.registerProvider(new TemplatePluginInfoStatusProvider(name, getDescription("version"), pluginCMD));
 		// register plugin settings
 		PlayerPluginSettingsOverlay.registerPlayerPluginSettings(new TemplatePlayerPluginSettings(getDescription("version")));
 		PlayerPluginSettingsOverlay.registerPlayerPluginData(new TemplatePlayerPluginData(getDescription("version")));
@@ -64,6 +81,11 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 
 	@Override
 	public void onDisable() {
+		if (name != null) {
+			InventoryOverlayButtons.unregisterButtons(name);
+			SharedIndicators.unregisterProvider(name);
+			PluginInfoStatusProviders.unregisterProvider(name);
+		}
 	}
 
 	@Override
@@ -90,13 +112,7 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 			String option = cmdParts[1];
 			switch (option) {
 				case "status":
-					String statusMessage = t.get("TC_CMD_STATUS", lang)
-							.replace("PH_VERSION", c.okay + this.getDescription("version") + c.endTag)
-							.replace("PH_LANGUAGE",
-									c.info + player.getLanguage() + " / " + player.getSystemLanguage() + c.endTag)
-							.replace("PH_USEDLANG", c.okay + t.getLanguageUsed(lang) + c.endTag)
-							.replace("PH_LANG_AVAILABLE", c.warning + t.getLanguageAvailable() + c.endTag);
-					player.sendTextMessage(c.okay + this.getName() + ":> " + c.text + statusMessage);
+					PluginInfoStatusProviders.show(player, name);
 					break;
                 case "help":
                     String helpMessage = t.get("TC_CMD_HELP", player).replaceAll("PH_PLUGIN_CMD", pluginCMD);

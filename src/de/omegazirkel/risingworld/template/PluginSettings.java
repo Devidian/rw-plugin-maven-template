@@ -24,7 +24,7 @@ public class PluginSettings {
 	private static MavenTemplate plugin;
 
 	private static OZLogger logger() {
-		return OZLogger.getInstance("MavenTemplate.Settings");
+		return MavenTemplate.logger();
 	}
 
 	// Settings
@@ -110,13 +110,18 @@ public class PluginSettings {
 
 	public List<AdminSettingsEntry> adminSettingsEntries() {
 		return Arrays.asList(
+				AdminSettingsEntry.group("logging", "Logging", "Logging output and verbosity."),
 				entry("logLevel", "Log level", "Controls plugin logging verbosity.", AdminSettingsType.STRING),
+				AdminSettingsEntry.group("runtime", "Runtime", "Runtime reload and maintenance behavior."),
 				entry("reloadOnChange", "Reload on change",
 						"If true, this plugin reloads settings when settings.properties changes.",
 						AdminSettingsType.BOOLEAN),
+				AdminSettingsEntry.group("playerMessages", "Player messages",
+						"Messages sent directly to players by this plugin."),
 				entry("enableWelcomeMessage", "Welcome message",
 						"If true, this plugin sends a welcome message when a player joins.",
 						AdminSettingsType.BOOLEAN),
+				AdminSettingsEntry.group("examples", "Examples", "Replace or remove template-only examples."),
 				new AdminSettingsEntry(
 						"exampleSecret",
 						"Example secret",

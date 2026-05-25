@@ -11,6 +11,8 @@ Owns:
 - Java 20 plugin runtime defaults
 - GitHub tag-release workflow conventions
 - baseline documentation, policy, and agent workflow structure
+- baseline examples for shared Tools UI, settings metadata, logging, and plugin
+  info/status conventions
 
 Does not own:
 - feature-plugin business logic
@@ -22,6 +24,9 @@ Does not own:
 - Preserve Maven-based build and packaging behavior.
 - Preserve GitHub tag-release compatibility.
 - Keep generated plugin repositories autonomous.
+- Route shared UI, i18n, settings, persistence, file-watching, and logger
+  conventions through `rw-plugin-oz-tools` unless a repository-local need is
+  explicitly documented.
 - Follow `.codex/agents.toml` for local agent roles, task classes, context loading, and escalation.
 - Follow `docs/policies/repository-policy.md` for reusable governance rules.
 - Keep `README.md`, `HISTORY.md`, and `PLANS.md` aligned with structural changes.

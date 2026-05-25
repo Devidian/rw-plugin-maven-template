@@ -29,10 +29,38 @@ Use this repository as template for new Rising World Plugins.
 - Uses the shared file watcher path by implementing `FileChangeListener`; changes
   to `settings.properties` reload plugin settings.
 - Defaults `reloadOnChange=true` in `settings.default.properties`.
+- Registers a shared inventory overlay button through `InventoryOverlayButtons`
+  so players get a compact entrypoint below the inventory.
+- Registers a `SharedIndicators` provider stub. The template returns `false` by
+  default; real plugins should only show indicators when they have meaningful
+  player-specific state.
+- Registers a `PluginInfoStatusProvider` with generic RichText info/status
+  content for the shared Tools Info/Status panel.
 - Registers player settings, player data, and admin-only `PluginSettings`
   metadata with `PlayerPluginSettingsOverlay`.
-- Includes sample admin settings metadata for booleans and strings, plus a hidden
-  sensitive value example that should be replaced or removed in real plugins.
+- Includes grouped sample admin settings metadata for booleans and strings, plus
+  a hidden sensitive value example that should be replaced or removed in real
+  plugins.
+- Uses one main plugin logger name. Helper classes should call the main plugin
+  logger instead of creating subsystem logger names.
+
+## Shared Tools conventions
+
+Future plugins generated from this template should route shared infrastructure
+through `rw-plugin-oz-tools`:
+
+- UI entrypoints: use `InventoryOverlayButtons` for compact inventory actions and
+  `PluginMenuManager` for the `/ozt` main plugin menu.
+- Indicators: use `SharedIndicators` for reusable HUD indicator slots. Return an
+  `AssetManager` icon key from the provider, not a file path.
+- Info/status: expose player-facing RichText through `PluginInfoStatusProvider`
+  and open it with `PluginInfoStatusProviders.show(player, pluginName)` from
+  plugin-owned buttons, menu items, or commands when appropriate.
+- Settings: register admin metadata through `PlayerPluginSettingsOverlay`; use
+  `AdminSettingsEntry.group(...)` for sections and `AdminSettingsType.INTEGER`
+  for numeric settings so Tools can apply shared numeric input filtering.
+- i18n, persistence helpers, common UI helpers, and runtime watchers should use
+  Tools contracts instead of duplicating helper code in feature plugins.
 
 ## Contributor Workflow
 
