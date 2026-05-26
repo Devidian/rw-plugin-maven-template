@@ -36,8 +36,15 @@ Use this repository as template for new Rising World Plugins.
   player-specific state.
 - Registers a `PluginInfoStatusProvider` with generic RichText info/status
   content for the shared Tools Info/Status panel.
+- Adds an `Info / Status` action to the plugin-owned radial menu. It uses the
+  Tools-registered `icon-ki-info-status` asset key; generated plugins should not
+  register a duplicate copy of that shared icon.
 - Registers player settings, player data, and admin-only `PluginSettings`
   metadata with `PlayerPluginSettingsOverlay`.
+- Includes an optional reflection-based `WalletBridge` scaffold for economy
+  integrations. It covers Wallet availability, default currency, currency
+  listing, currency registration, deposit, withdraw, balance, and default
+  currency convenience calls without a compile-time Wallet dependency.
 - Includes grouped sample admin settings metadata for booleans and strings, plus
   a hidden sensitive value example that should be replaced or removed in real
   plugins.
@@ -55,7 +62,11 @@ through `rw-plugin-oz-tools`:
   `AssetManager` icon key from the provider, not a file path.
 - Info/status: expose player-facing RichText through `PluginInfoStatusProvider`
   and open it with `PluginInfoStatusProviders.show(player, pluginName)` from
-  plugin-owned buttons, menu items, or commands when appropriate.
+  plugin-owned buttons, menu items, or commands when appropriate. Use the shared
+  `icon-ki-info-status` icon key for radial Info/Status buttons.
+- Wallet: use the template `WalletBridge` pattern for optional economy
+  integrations. Keep feature-specific spending and fulfillment rules inside the
+  generated plugin, and disable economy features when Wallet is unavailable.
 - Settings: register admin metadata through `PlayerPluginSettingsOverlay`; use
   `AdminSettingsEntry.group(...)` for sections and `AdminSettingsType.INTEGER`
   for numeric settings so Tools can apply shared numeric input filtering.

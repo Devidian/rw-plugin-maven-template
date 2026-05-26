@@ -111,6 +111,7 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 			}
 			String option = cmdParts[1];
 			switch (option) {
+				case "info":
 				case "status":
 					PluginInfoStatusProviders.show(player, name);
 					break;

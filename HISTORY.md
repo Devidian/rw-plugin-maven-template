@@ -4,6 +4,7 @@
 
 ## [unreleased]
 
+- feat: add canonical optional WalletBridge scaffold and shared Info/Status radial-menu action
 - refactor: route the template status command to the shared Tools Info/Status panel
 - feat: scaffold shared Tools UI, indicator, info/status, grouped settings, and logger conventions
 - refactor: remove feature-plugin integration helper stubs from the generic template baseline
