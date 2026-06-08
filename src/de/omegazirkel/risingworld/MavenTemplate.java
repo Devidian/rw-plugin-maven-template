@@ -18,6 +18,7 @@ import de.omegazirkel.risingworld.tools.ui.MenuItem;
 import de.omegazirkel.risingworld.tools.ui.PlayerPluginSettingsOverlay;
 import de.omegazirkel.risingworld.tools.ui.PluginInfoStatusProviders;
 import de.omegazirkel.risingworld.tools.ui.PluginMenuManager;
+import de.omegazirkel.risingworld.tools.ui.PluginShortcutVisibility;
 import de.omegazirkel.risingworld.tools.ui.SharedIndicatorProvider;
 import de.omegazirkel.risingworld.tools.ui.SharedIndicators;
 import net.risingworld.api.Plugin;
@@ -52,9 +53,10 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 		PluginMenuManager
 				// FIXME rename template stuff
 				.registerPluginMenu(
-						new MenuItem(AssetManager.getIcon("template-icon"), "Template Plugin", (Player p) -> {
+						new MenuItem(name, AssetManager.getIcon("template-icon"), "Template Plugin", (Player p) -> {
 							gui.openMainMenu(p);
 						}));
+		PluginShortcutVisibility.register(name, player -> true);
 		InventoryOverlayButtons.registerButton(name, "Open", "template-icon",
 				event -> gui.openMainMenu(event.getPlayer()));
 		SharedIndicators.registerProvider(name, new SharedIndicatorProvider() {
@@ -83,6 +85,7 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 	public void onDisable() {
 		if (name != null) {
 			InventoryOverlayButtons.unregisterButtons(name);
+			PluginShortcutVisibility.unregister(name);
 			SharedIndicators.unregisterProvider(name);
 			PluginInfoStatusProviders.unregisterProvider(name);
 		}

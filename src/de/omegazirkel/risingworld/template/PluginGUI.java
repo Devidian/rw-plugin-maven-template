@@ -36,7 +36,7 @@ public class PluginGUI {
 
     public void openMainMenu(Player uiPlayer) {
         List<MenuItem> menuItems = new ArrayList<>();
-        menuItems.add(new MenuItem(AssetManager.getIcon("icon-ki-info-status"), "Info / Status", player -> {
+        menuItems.add(new MenuItem(pluginName, AssetManager.getIcon("icon-ki-info-status"), "Info / Status", player -> {
             player.hideRadialMenu(true);
             PluginInfoStatusProviders.show(player, pluginName);
         }));

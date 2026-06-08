@@ -4,7 +4,8 @@
 
 ## [unreleased]
 
-- build: update the OZTools baseline dependency and CI checkout reference to `0.20.0`
+- feat: adopt Plan 04 shortcut visibility and runtime standard conventions
+- build: update the OZTools baseline dependency and CI checkout reference to `0.21.0`
 
 - feat: add canonical optional WalletBridge scaffold and shared Info/Status radial-menu action
 - refactor: route the template status command to the shared Tools Info/Status panel

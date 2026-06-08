@@ -31,6 +31,9 @@ Use this repository as template for new Rising World Plugins.
 - Defaults `reloadOnChange=true` in `settings.default.properties`.
 - Registers a shared inventory overlay button through `InventoryOverlayButtons`
   so players get a compact entrypoint below the inventory.
+- Registers a default-visible shortcut visibility provider through
+  `PluginShortcutVisibility`; real plugins should connect this to a persisted
+  player setting when they expose player preferences.
 - Registers a `SharedIndicators` provider stub. The template returns `false` by
   default; real plugins should only show indicators when they have meaningful
   player-specific state.
@@ -57,7 +60,9 @@ Future plugins generated from this template should route shared infrastructure
 through `rw-plugin-oz-tools`:
 
 - UI entrypoints: use `InventoryOverlayButtons` for compact inventory actions and
-  `PluginMenuManager` for the `/ozt` main plugin menu.
+  `PluginMenuManager` for the `/ozt` main plugin menu. Register
+  `PluginShortcutVisibility` with a default-visible per-player predicate when a
+  plugin lets players hide shared shortcuts.
 - Indicators: use `SharedIndicators` for reusable HUD indicator slots. Return an
   `AssetManager` icon key from the provider, not a file path.
 - Info/status: expose player-facing RichText through `PluginInfoStatusProvider`
@@ -70,8 +75,16 @@ through `rw-plugin-oz-tools`:
 - Settings: register admin metadata through `PlayerPluginSettingsOverlay`; use
   `AdminSettingsEntry.group(...)` for sections and `AdminSettingsType.INTEGER`
   for numeric settings so Tools can apply shared numeric input filtering.
-- i18n, persistence helpers, common UI helpers, and runtime watchers should use
-  Tools contracts instead of duplicating helper code in feature plugins.
+- i18n: load the plugin i18n instance once during `onEnable()` with
+  `I18n.getInstance(this)`. Other classes may use `I18n.getInstance(pluginName)`
+  after enable.
+- Persistence: use `SQLiteConnectionFactory.open(this)` and repository-local
+  stores for runtime data. Do not use the deprecated Tools `SQLite` class in new
+  plugins.
+- Escape behavior: rely on explicit close controls until the Rising World API
+  provides its planned custom-overlay Escape layer.
+- Common UI helpers and runtime watchers should use Tools contracts instead of
+  duplicating helper code in feature plugins.
 
 ## Contributor Workflow
 
