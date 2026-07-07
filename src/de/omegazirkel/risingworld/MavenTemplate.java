@@ -53,7 +53,7 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 		PluginMenuManager
 				// FIXME rename template stuff
 				.registerPluginMenu(
-						new MenuItem(name, AssetManager.getIcon("template-icon"), "Template Plugin", (Player p) -> {
+						new MenuItem(name, "template-icon", "Template Plugin", (Player p) -> {
 							gui.openMainMenu(p);
 						}));
 		PluginShortcutVisibility.register(name, player -> true);
