@@ -4,6 +4,7 @@
 
 ## [unreleased]
 
+- change: rename template and shared menu icon keys to their final semantic names
 - feat: adopt Plan 04 shortcut visibility and runtime standard conventions
 - build: update the OZTools baseline dependency and CI checkout reference to `0.21.0`
 

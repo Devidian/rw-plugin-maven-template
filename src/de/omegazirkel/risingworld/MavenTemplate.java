@@ -53,11 +53,11 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 		PluginMenuManager
 				// FIXME rename template stuff
 				.registerPluginMenu(
-						new MenuItem(name, "template-icon", "Template Plugin", (Player p) -> {
+						new MenuItem(name, "maven-template", "Template Plugin", (Player p) -> {
 							gui.openMainMenu(p);
 						}));
 		PluginShortcutVisibility.register(name, player -> true);
-		InventoryOverlayButtons.registerButton(name, "Open", "template-icon",
+		InventoryOverlayButtons.registerButton(name, "Open", "maven-template",
 				event -> gui.openMainMenu(event.getPlayer()));
 		SharedIndicators.registerProvider(name, new SharedIndicatorProvider() {
 			@Override
@@ -67,7 +67,7 @@ public class MavenTemplate extends Plugin implements Listener, FileChangeListene
 
 			@Override
 			public String getIcon(Player player) {
-				return "template-icon";
+				return "maven-template";
 			}
 		});
 		PluginInfoStatusProviders

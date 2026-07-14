@@ -40,7 +40,7 @@ Use this repository as template for new Rising World Plugins.
 - Registers a `PluginInfoStatusProvider` with generic RichText info/status
   content for the shared Tools Info/Status panel.
 - Adds an `Info / Status` action to the plugin-owned radial menu. It uses the
-  Tools-registered `icon-ki-info-status` asset key; generated plugins should not
+  Tools-registered `info-status` asset key; generated plugins should not
   register a duplicate copy of that shared icon.
 - Registers player settings, player data, and admin-only `PluginSettings`
   metadata with `PlayerPluginSettingsOverlay`.
@@ -68,7 +68,7 @@ through `rw-plugin-oz-tools`:
 - Info/status: expose player-facing RichText through `PluginInfoStatusProvider`
   and open it with `PluginInfoStatusProviders.show(player, pluginName)` from
   plugin-owned buttons, menu items, or commands when appropriate. Use the shared
-  `icon-ki-info-status` icon key for radial Info/Status buttons.
+  `info-status` icon key for radial Info/Status buttons.
 - Wallet: use the template `WalletBridge` pattern for optional economy
   integrations. Keep feature-specific spending and fulfillment rules inside the
   generated plugin, and disable economy features when Wallet is unavailable.

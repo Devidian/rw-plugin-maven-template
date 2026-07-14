@@ -21,7 +21,7 @@ public class PluginGUI {
     public static PluginGUI getInstance(Plugin p) {
 
         // FIXME: rename this for a new plugin
-        AssetManager.loadIconFromPlugin(p, "template-icon");
+        AssetManager.loadIconFromPlugin(p, "maven-template");
         PluginGUI gui = getInstance();
         gui.pluginName = p.getDescription("name");
         return gui;
@@ -36,7 +36,7 @@ public class PluginGUI {
 
     public void openMainMenu(Player uiPlayer) {
         List<MenuItem> menuItems = new ArrayList<>();
-        menuItems.add(new MenuItem(pluginName, "icon-ki-info-status", "Info / Status", player -> {
+        menuItems.add(new MenuItem(pluginName, "info-status", "Info / Status", player -> {
             player.hideRadialMenu(true);
             PluginInfoStatusProviders.show(player, pluginName);
         }));

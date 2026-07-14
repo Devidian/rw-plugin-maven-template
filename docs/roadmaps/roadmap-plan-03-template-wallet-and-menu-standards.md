@@ -42,5 +42,5 @@ Template changes do not affect deployed plugins directly. If a convention is rej
 
 ## Progress Notes
 - Phase 1-4 complete: the template includes a reflection-based `WalletBridge` scaffold with Wallet availability, default currency, currency listing, currency registration, deposit, withdraw, balance, default convenience methods, and public currency metadata parsing.
-- The template plugin-owned radial menu now includes an `Info / Status` action that uses the shared Tools `icon-ki-info-status` key and opens the existing Tools Info/Status panel.
+- The template plugin-owned radial menu now includes an `Info / Status` action that uses the shared Tools `info-status` key and opens the existing Tools Info/Status panel.
 - Phase 5 complete: `mvn -B test` passed.
