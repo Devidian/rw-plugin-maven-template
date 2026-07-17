@@ -79,6 +79,14 @@ public final class WalletBridge {
                 new Object[] { playerDbId, value, reason, currencyIdentifier, pluginIdentifier }));
     }
 
+    /** Wallet v1 atomic, idempotent transfer for cross-plugin sagas. */
+    public WalletTransferCallResult transferIdempotent(int payerDbId, int payeeDbId, long value, String reason,
+            String currencyIdentifier, String pluginIdentifier, String correlationId) {
+        return WalletTransferCallResult.from(callWalletMethod("transferIdempotent",
+                new Class<?>[] { int.class, int.class, long.class, String.class, String.class, String.class, String.class },
+                new Object[] { payerDbId, payeeDbId, value, reason, currencyIdentifier, pluginIdentifier, correlationId }));
+    }
+
     public WalletCallResult balance(int playerDbId, String currencyIdentifier) {
         if (currencyIdentifier == null || currencyIdentifier.isBlank()) {
             return balanceDefault(playerDbId);
@@ -180,6 +188,16 @@ public final class WalletBridge {
             Object message = getResultField(result, "message");
             return new WalletCallResult(success instanceof Boolean && (Boolean) success,
                     message instanceof String ? (String) message : "");
+        }
+    }
+
+    public record WalletTransferCallResult(boolean success, String errorCode, String message) {
+        static WalletTransferCallResult from(Object result) {
+            Object success = getResultField(result, "success");
+            Object errorCode = getResultField(result, "errorCode");
+            Object message = getResultField(result, "message");
+            return new WalletTransferCallResult(Boolean.TRUE.equals(success),
+                    errorCode == null ? "" : String.valueOf(errorCode), message instanceof String ? (String) message : "");
         }
     }
 
