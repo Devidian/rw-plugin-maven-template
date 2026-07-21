@@ -2,11 +2,12 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
-## [unreleased]
+## [0.0.1] - 2026-07-21
 
 - change: rename template and shared menu icon keys to their final semantic names
 - feat: adopt Plan 04 shortcut visibility and runtime standard conventions
 - build: update the OZTools baseline dependency and CI checkout reference to `0.21.0`
+- build: update the OZ Tools baseline dependency to `0.23.1`
 
 - feat: add canonical optional WalletBridge scaffold and shared Info/Status radial-menu action
 - refactor: route the template status command to the shared Tools Info/Status panel

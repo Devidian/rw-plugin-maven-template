@@ -1,6 +1,6 @@
 name: "MavenPluginTemplate"
 main: de.omegazirkel.risingworld.MavenTemplate
-version: 0.0.0
+version: 0.0.1
 author: "Maik 'Devidian' Laschober"
 team: "Omega Zirkel"
 description: "Describe your plugin here"
