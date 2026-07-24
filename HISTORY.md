@@ -2,6 +2,14 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## Unreleased
+
+- change: provide the synchronized optional Discord bridge with configured bot-language lookup
+- refactor: make the plugin entry class a thin, sole Rising World event listener
+  and delegate template runtime and event workflows to thematic classes
+- docs: require new plugins to adapt and retain the template baseline, including
+  the supplied `PluginSettings` configuration structure
+
 ## [0.0.1] - 2026-07-21
 
 - change: rename template and shared menu icon keys to their final semantic names
