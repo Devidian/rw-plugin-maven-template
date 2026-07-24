@@ -1,6 +1,5 @@
 package de.omegazirkel.risingworld.template.ui;
 
-import de.omegazirkel.risingworld.MavenTemplate;
 import de.omegazirkel.risingworld.tools.ui.BasePlayerPluginSettingsPanel;
 import de.omegazirkel.risingworld.tools.ui.PlayerPluginSettings;
 import net.risingworld.api.objects.Player;
@@ -10,8 +9,8 @@ import net.risingworld.api.ui.UILabel;
 
 public class TemplatePlayerPluginSettings extends PlayerPluginSettings {
 
-    public TemplatePlayerPluginSettings(String pluginVersion) {
-        this.pluginLabel = MavenTemplate.name;
+    public TemplatePlayerPluginSettings(String pluginLabel, String pluginVersion) {
+        this.pluginLabel = pluginLabel;
         this.pluginVersion = pluginVersion;
     }
 

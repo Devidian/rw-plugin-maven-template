@@ -53,11 +53,27 @@ Use this repository as template for new Rising World Plugins.
   plugins.
 - Uses one main plugin logger name. Helper classes should call the main plugin
   logger instead of creating subsystem logger names.
+- Uses the `plugin.yml` entry class as the sole Rising World event listener.
+  That class only wires lifecycle and dispatches events; runtime and feature
+  logic live in focused classes under `template/`.
 
 ## Shared Tools conventions
 
 Future plugins generated from this template should route shared infrastructure
 through `rw-plugin-oz-tools`:
+
+- Template adaptation: start from this repository and rename the template
+  packages, classes, assets, descriptor metadata, documentation, and
+  player-facing labels. Keep its classes and responsibilities unless a concrete
+  documented technical reason requires a deviation. In particular, retain the
+  supplied `PluginSettings` plus settings-file model instead of introducing a
+  settings `record` or a separate configuration implementation.
+
+- Event architecture: the entry class is the only
+  `net.risingworld.api.events.Listener` and the only target of
+  `registerEventListener(...)`. Keep event methods as thin dispatchers and put
+  their logic in thematic handler/service classes; do not register secondary
+  Rising World listeners.
 
 - UI entrypoints: use `InventoryOverlayButtons` for compact inventory actions and
   `PluginMenuManager` for the `/ozt` main plugin menu. Register

@@ -5,6 +5,27 @@
 - Do not lower Maven compiler source, target, or release settings below 20.
 - Runtime/tooling changes must be reflected in `README.md`, `HISTORY.md`, CI, and packaging files when affected.
 
+## Plugin Entry-Point Policy
+- The class declared as `main` in `plugin.yml` is the sole Rising World
+  `net.risingworld.api.events.Listener` and the sole registration target for
+  `registerEventListener(...)`.
+- Keep it minimal: lifecycle composition, listener registration, and thin
+  dispatch only.
+- Place feature logic in focused thematic classes and subpackages. Event
+  methods delegate there; delegated classes must not implement the Rising World
+  `Listener` interface.
+
+## Template Adaptation Policy
+- New feature plugins begin as an adapted copy of this repository. Rename the
+  template packages, classes, assets, descriptor metadata, documentation, and
+  player-facing wording for the owning feature.
+- Retain the supplied template classes and their responsibilities. Do not
+  delete them or replace their logic with a parallel implementation without a
+  documented technical reason and coverage for the responsibility being changed.
+- Use the supplied `PluginSettings` class and settings-file structure for
+  configuration. Do not introduce a settings `record` or an independent
+  configuration model as a replacement.
+
 ## Dependency Policy
 - Keep dependencies minimal.
 - Add external libraries only when technically necessary and compatible with the plugin runtime.

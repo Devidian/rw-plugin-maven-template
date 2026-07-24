@@ -1,6 +1,5 @@
 package de.omegazirkel.risingworld.template.ui;
 
-import de.omegazirkel.risingworld.MavenTemplate;
 import de.omegazirkel.risingworld.tools.ui.BasePlayerPluginDataPanel;
 import de.omegazirkel.risingworld.tools.ui.PlayerPluginData;
 import net.risingworld.api.objects.Player;
@@ -9,8 +8,8 @@ import net.risingworld.api.objects.Player;
 
 public class TemplatePlayerPluginData extends PlayerPluginData {
 
-    public TemplatePlayerPluginData(String pluginVersion) {
-        this.pluginLabel = MavenTemplate.name;
+    public TemplatePlayerPluginData(String pluginLabel, String pluginVersion) {
+        this.pluginLabel = pluginLabel;
         this.pluginVersion = pluginVersion;
     }
 

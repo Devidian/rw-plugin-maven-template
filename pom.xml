@@ -31,39 +31,16 @@
             <url>https://maven.pkg.github.com/Devidian/rw-plugin-oz-tools</url>
         </repository>
 
-        <!-- <repository>
-            <id>github-oz-globalintercom</id>
-            <url>https://maven.pkg.github.com/Devidian/rw-plugin-oz-global-intercom</url>
-        </repository> -->
-
-        <!-- <repository>
-            <id>github-oz-discord-connect</id>
-            <url>https://maven.pkg.github.com/Devidian/rw-plugin-oz-discord-connect</url>
-        </repository> -->
-
     </repositories>
 
     <dependencies>
 
         <!-- OZ Plugins -->
-        <!-- <dependency>
-            <groupId>com.github.devidian</groupId>
-            <artifactId>rw-plugin-oz-global-intercom</artifactId>
-            <version>0.13.0</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency> -->
-        <!-- <dependency>
-            <groupId>com.github.devidian</groupId>
-            <artifactId>rw-plugin-oz-discord-connect</artifactId>
-            <version>0.17.0</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency> -->
+
         <dependency>
             <groupId>com.github.devidian</groupId>
             <artifactId>rw-plugin-oz-tools</artifactId>
-            <version>0.23.1</version>
+            <version>0.23.7</version>
         </dependency>
 
         <!-- Rising World PluginAPI -->
