@@ -2,7 +2,7 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
-## Unreleased
+## [0.0.2] - 2026-08-05 | Template runtime baseline
 
 - change: provide the synchronized optional Discord bridge with configured bot-language lookup
 - refactor: make the plugin entry class a thin, sole Rising World event listener
