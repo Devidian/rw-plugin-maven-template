@@ -75,7 +75,6 @@ public final class TemplatePluginRuntime {
 
     public void reloadSettings(Path settingsPath) {
         settings.initSettings(settingsPath.toString());
-        MavenTemplate.logger().setLevel(settings.logLevel);
     }
 
     public TemplatePlayerEventHandler events() {

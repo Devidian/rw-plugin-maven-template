@@ -1,0 +1,70 @@
+{
+  "tc": {
+    "cmd": {
+      "help": "Help:\nAvailable chat commands:\n\u003ccolor\u003dred\u003e/PH_PLUGIN_CMD status\u003c/color\u003e shows plugin infos\n\u003ccolor\u003dred\u003e/PH_PLUGIN_CMD open\u003c/color\u003e opens the plugin menu\n\u003ccolor\u003dred\u003e/PH_PLUGIN_CMD help\u003c/color\u003e shows this help\n\n\u003ccolor\u003dyellow\u003eTip:\u003c/color\u003e Bind the command \u003ccolor\u003dred\u003e/PH_PLUGIN_CMD open\u003c/color\u003e to a mouse button or keyboard key.",
+      "status": "🔎 Plugin Status\n➡️ Plugin version: PH_VERSION\n➡️ Installed languages: PH_LANG_AVAILABLE\n➡️ Your language: PH_LANGUAGE\n➡️ Used language: PH_USEDLANG\n➡️ Translated by: Devidian"
+    },
+    "data": {
+      "desc": "Here you can view stored player data for PH_PLUGIN_NAME.",
+      "empty": "No stored player data is available for this plugin yet.",
+      "title": "Saved Data for PH_PLUGIN_NAME"
+    },
+    "err": {
+      "cmd": {
+        "unknown": "Unknown command. Type \u003ccolor\u003dred\u003e/PH_PLUGIN_CMD help\u003c/color\u003e for help."
+      }
+    },
+    "msg": {
+      "plugin": {
+        "welcome": "ℹ️ \u003ccolor\u003d#F00000\u003ePH_PLUGIN_NAME\u003c/color\u003e | \u003ccolor\u003d#F0F000\u003evPH_PLUGIN_VERSION\u003c/color\u003e | \u003ccolor\u003d#C0C0C0\u003e/PH_PLUGIN_CMD\u003c/color\u003e | loaded!"
+      }
+    },
+    "settings": {
+      "desc": "Here you can adjust the player-facing settings for PH_PLUGIN_NAME.",
+      "empty": "No player settings are available for PH_PLUGIN_NAME yet.",
+      "title": "Plugin Settings for PH_PLUGIN_NAME"
+    },
+    "setting": {
+      "enablewelcomemessage": {
+        "desc": "If true, this plugin sends a welcome message when a player joins.",
+        "label": "Welcome message"
+      },
+      "examplesecret": {
+        "desc": "Template example for a sensitive value. Replace or remove in real plugins.",
+        "label": "Example secret"
+      },
+      "examples": {
+        "desc": "Replace or remove template-only examples.",
+        "label": "Examples"
+      },
+      "logging": {
+        "desc": "Logging output and verbosity.",
+        "label": "Logging"
+      },
+      "loglevel": {
+        "desc": "Controls plugin logging verbosity.",
+        "label": "Log level"
+      },
+      "playermessages": {
+        "desc": "Messages sent directly to players by this plugin.",
+        "label": "Player messages"
+      },
+      "reloadonchange": {
+        "desc": "If true, this plugin reloads settings when settings.properties changes.",
+        "label": "Reload on change"
+      },
+      "runtime": {
+        "desc": "Runtime reload and maintenance behavior.",
+        "label": "Runtime"
+      }
+    },
+    "template": {
+      "info": {
+        "panel": {
+          "info": "\u003cb\u003ePH_PLUGIN_NAME\u003c/b\u003e\nVersion: PH_PLUGIN_VERSION\nCommand: /PH_PLUGIN_CMD\nThis template demonstrates shared Tools UI, settings, i18n, logger, and info/status integration for future plugins.",
+          "status": "\u003cb\u003eCurrent template settings\u003c/b\u003e\nWelcome message: PH_WELCOME_MESSAGE"
+        }
+      }
+    }
+  }
+}

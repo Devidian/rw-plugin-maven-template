@@ -27,8 +27,11 @@ Use this repository as template for new Rising World Plugins.
 
 - Requires `rw-plugin-oz-tools`.
 - Uses the shared file watcher path by implementing `FileChangeListener`; changes
-  to `settings.properties` reload plugin settings.
-- Defaults `reloadOnChange=true` in `settings.default.properties`.
+  to the active world-scoped `settings.<world>.json` reload plugin settings.
+- Ships `settings.default.json`. On the first JSON-aware startup, an existing
+  `settings.properties` is migrated atomically and retained as a timestamped
+  backup; new plugins must not add `logLevel` or `reloadOnChange`, which are
+  owned by OZ Tools.
 - Registers a shared inventory overlay button through `InventoryOverlayButtons`
   so players get a compact entrypoint below the inventory.
 - Registers a default-visible shortcut visibility provider through

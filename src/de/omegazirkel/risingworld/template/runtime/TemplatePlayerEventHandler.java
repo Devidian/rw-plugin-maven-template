@@ -41,9 +41,9 @@ public final class TemplatePlayerEventHandler {
         switch (commandParts[1]) {
             case "info", "status" -> PluginInfoStatusProviders.show(player, pluginName);
             case "help" -> player.sendTextMessage(colors.okay + plugin.getName() + ":> " + colors.endTag
-                    + i18n.get("TC_CMD_HELP", player).replace("PH_PLUGIN_CMD", TemplatePluginRuntime.COMMAND));
+                    + i18n.get("tc.cmd.help", player).replace("PH_PLUGIN_CMD", TemplatePluginRuntime.COMMAND));
             case "open" -> gui.openMainMenu(player);
-            default -> player.sendTextMessage(i18n.get("TC_ERR_CMD_UNKNOWN")
+            default -> player.sendTextMessage(i18n.get("tc.err.cmd.unknown")
                     .replace("PH_PLUGIN_CMD", TemplatePluginRuntime.COMMAND));
         }
     }
@@ -53,7 +53,7 @@ public final class TemplatePlayerEventHandler {
             return;
         }
         Player player = event.getPlayer();
-        player.sendTextMessage(i18n.get("TC_MSG_PLUGIN_WELCOME", player.getSystemLanguage())
+        player.sendTextMessage(i18n.get("tc.msg.plugin.welcome", player.getSystemLanguage())
                 .replace("PH_PLUGIN_NAME", plugin.getDescription("name"))
                 .replace("PH_PLUGIN_CMD", TemplatePluginRuntime.COMMAND)
                 .replace("PH_PLUGIN_VERSION", plugin.getDescription("version")));

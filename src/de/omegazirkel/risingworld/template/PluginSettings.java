@@ -1,22 +1,19 @@
 package de.omegazirkel.risingworld.template;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Properties;
-
-import org.apache.logging.log4j.Level;
 
 import de.omegazirkel.risingworld.MavenTemplate;
 import de.omegazirkel.risingworld.tools.OZLogger;
 import de.omegazirkel.risingworld.tools.settings.AdminSettingsEntry;
 import de.omegazirkel.risingworld.tools.settings.AdminSettingsType;
+import de.omegazirkel.risingworld.tools.settings.JsonSettingsFile;
 import de.omegazirkel.risingworld.tools.settings.SettingsFileEditor;
+import net.risingworld.api.World;
 
 public class PluginSettings {
 	private static PluginSettings instance = null;
@@ -28,12 +25,10 @@ public class PluginSettings {
 	}
 
 	// Settings
-	public String logLevel = Level.DEBUG.name();
-	public boolean reloadOnChange = false;
 	public boolean enableWelcomeMessage = false;
 	private Path settingsFile;
-	private Properties currentSettings = new Properties();
-	private Properties defaultSettings = new Properties();
+	private java.util.Map<String, String> currentSettings = new LinkedHashMap<>();
+	private java.util.Map<String, String> defaultSettings = new LinkedHashMap<>();
 
 	// END Settings
 
@@ -54,48 +49,29 @@ public class PluginSettings {
 	}
 
 	public void initSettings() {
-		initSettings((plugin.getPath() != null ? plugin.getPath() : ".") + "/settings.properties");
+		Path pluginPath = Path.of(plugin.getPath() != null ? plugin.getPath() : ".");
+		initSettings(pluginPath.resolve("settings." + safeWorldName() + ".json").toString());
 	}
 
 	public void initSettings(String filePath) {
-		settingsFile = Paths.get(filePath);
-		Path defaultSettingsFile = settingsFile.resolveSibling("settings.default.properties");
+		settingsFile = Path.of(filePath);
+		Path defaultSettingsFile = settingsFile.resolveSibling("settings.default.json");
+		Path legacySettingsFile = settingsFile.resolveSibling("settings.properties");
 
 		try {
-			if (Files.notExists(settingsFile) && Files.exists(defaultSettingsFile)) {
-				logger().info("settings.properties not found, copying from settings.default.properties...");
-				Files.copy(defaultSettingsFile, settingsFile);
-			}
-
-			Properties settings = new Properties();
-			Properties defaults = new Properties();
-			if (Files.exists(defaultSettingsFile)) {
-				try (FileInputStream in = new FileInputStream(defaultSettingsFile.toFile())) {
-					defaults.load(new InputStreamReader(in, "UTF8"));
-				}
-			}
-			if (Files.exists(settingsFile)) {
-				try (FileInputStream in = new FileInputStream(settingsFile.toFile())) {
-					settings.load(new InputStreamReader(in, "UTF8"));
-				}
-			} else {
-				logger().warn(
-						"⚠️ Neither settings.properties nor settings.default.properties found. Using default values.");
-			}
-			// fill global values
-			logLevel = settings.getProperty("logLevel", defaults.getProperty("logLevel", "ALL"));
-			reloadOnChange = settings.getProperty("reloadOnChange", defaults.getProperty("reloadOnChange", "true"))
-					.contentEquals("true");
+			if (JsonSettingsFile.migrateLegacyProperties(legacySettingsFile, settingsFile))
+				logger().info("Migrated legacy settings.properties to " + settingsFile.getFileName());
+			if (Files.notExists(settingsFile) && Files.exists(defaultSettingsFile))
+				JsonSettingsFile.writeFlatAtomically(settingsFile, JsonSettingsFile.loadFlat(defaultSettingsFile));
+			java.util.Map<String, String> settings = JsonSettingsFile.loadFlat(settingsFile);
+			java.util.Map<String, String> defaults = JsonSettingsFile.loadFlat(defaultSettingsFile);
 
 			// motd settings
-			enableWelcomeMessage = settings
-					.getProperty("enableWelcomeMessage", defaults.getProperty("enableWelcomeMessage", "false"))
-					.contentEquals("true");
+			enableWelcomeMessage = settings.getOrDefault("enableWelcomeMessage",
+					defaults.getOrDefault("enableWelcomeMessage", "false")).contentEquals("true");
 
 			logger().info(plugin.getName() + " Plugin settings loaded");
 			logger().info("Sending welcome message on login is: " + String.valueOf(enableWelcomeMessage));
-			logger().info("Loglevel is set to " + logLevel);
-			logger().setLevel(logLevel);
 			currentSettings = settings;
 			defaultSettings = defaults;
 
@@ -110,12 +86,6 @@ public class PluginSettings {
 
 	public List<AdminSettingsEntry> adminSettingsEntries() {
 		return Arrays.asList(
-				AdminSettingsEntry.group("logging", "Logging", "Logging output and verbosity."),
-				entry("logLevel", "Log level", "Controls plugin logging verbosity.", AdminSettingsType.STRING),
-				AdminSettingsEntry.group("runtime", "Runtime", "Runtime reload and maintenance behavior."),
-				entry("reloadOnChange", "Reload on change",
-						"If true, this plugin reloads settings when settings.properties changes.",
-						AdminSettingsType.BOOLEAN),
 				AdminSettingsEntry.group("playerMessages", "Player messages",
 						"Messages sent directly to players by this plugin."),
 				entry("enableWelcomeMessage", "Welcome message",
@@ -138,10 +108,20 @@ public class PluginSettings {
 				key,
 				label,
 				description,
-				currentSettings.getProperty(key, defaultSettings.getProperty(key, "")),
-				defaultSettings.getProperty(key, ""),
+				currentSettings.getOrDefault(key, defaultSettings.getOrDefault(key, "")),
+				defaultSettings.getOrDefault(key, ""),
 				type,
 				false,
 				value -> SettingsFileEditor.writeValue(settingsFile, key, value));
+	}
+
+	private static String safeWorldName() {
+		String world;
+		try {
+			world = World.getName();
+		} catch (LinkageError ex) {
+			world = "default";
+		}
+		return (world == null || world.isBlank() ? "default" : world).replaceAll("[^A-Za-z0-9._-]", "_");
 	}
 }

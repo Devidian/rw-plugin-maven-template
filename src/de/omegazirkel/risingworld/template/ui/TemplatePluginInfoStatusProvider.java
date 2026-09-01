@@ -23,7 +23,7 @@ public class TemplatePluginInfoStatusProvider implements PluginInfoStatusProvide
 
     @Override
     public String getInfo(Player player) {
-        return t().get("TC_TEMPLATE_INFO_PANEL_INFO", player)
+        return t().get("tc.template.info.panel.info", player)
                 .replace("PH_PLUGIN_NAME", pluginName)
                 .replace("PH_PLUGIN_VERSION", version)
                 .replace("PH_PLUGIN_CMD", command);
@@ -32,10 +32,8 @@ public class TemplatePluginInfoStatusProvider implements PluginInfoStatusProvide
     @Override
     public String getStatus(Player player) {
         PluginSettings settings = PluginSettings.getInstance();
-        return t().get("TC_TEMPLATE_INFO_PANEL_STATUS", player)
+        return t().get("tc.template.info.panel.status", player)
                 .replace("PH_PLUGIN_NAME", pluginName)
-                .replace("PH_LOG_LEVEL", settings.logLevel)
-                .replace("PH_RELOAD_ON_CHANGE", String.valueOf(settings.reloadOnChange))
                 .replace("PH_WELCOME_MESSAGE", String.valueOf(settings.enableWelcomeMessage));
     }
 
