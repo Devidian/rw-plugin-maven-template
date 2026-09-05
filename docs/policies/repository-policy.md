@@ -45,7 +45,17 @@
 ## Release Policy
 - Preserve Maven workflows and GitHub tag-release behavior.
 - Release tags use the existing repository convention, normally `v*`.
-- User-visible changes require `HISTORY.md` updates.
+- Every commit changing `src/`, `pom.xml`, or the bundled PluginAPI must add
+  exactly one descriptive Markdown fragment under `changelog/unreleased/`.
+  Record both player-visible and technical changes; do not wait for a release
+  to reconstruct history.
+- Before a release, review all pending fragments as one set: remove entries
+  for reverted work or mutually cancelling work, consolidate the remaining
+  entries into `HISTORY.md`, and write only player-relevant highlights in
+  `release-notes/<version>.md`. Remove the consumed fragments in that same
+  release-preparation commit.
+- Do not publish a release while pending fragments remain. The release notes
+  are curated player communication, not an unfiltered commit log.
 - Installation or configuration changes require `README.md` updates.
 
 ## Documentation Policy
