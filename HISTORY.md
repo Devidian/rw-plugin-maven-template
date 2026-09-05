@@ -2,6 +2,10 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## [0.0.3] - 2026-09-05 | PluginAPI compatibility
+
+- build: update the bundled PluginAPI and Tools baseline for newly created plugins.
+
 ## [0.0.2] - 2026-08-05 | Template runtime baseline
 
 - change: provide the synchronized optional Discord bridge with configured bot-language lookup

@@ -8,7 +8,7 @@
 
     <groupId>com.github.devidian</groupId>
     <artifactId>rw-plugin-maven-template</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 
     <name>MavenTemplate</name>
     <description>No description yet</description>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.github.devidian</groupId>
             <artifactId>rw-plugin-oz-tools</artifactId>
-            <version> 0.23.14</version>
+            <version> 0.24.0</version>
         </dependency>
 
         <!-- Rising World PluginAPI -->
