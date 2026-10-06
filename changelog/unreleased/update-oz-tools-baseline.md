@@ -1,0 +1,2 @@
+- build: update the new-plugin OZ Tools baseline and CI checkout to v0.27.3.
+- build: use Java 25 and refresh the bundled PluginAPI.jar from Rising World 0.9.3.2.

@@ -2,6 +2,10 @@
 
 Use this repository as template for new Rising World Plugins.
 
+New to plugin development? Start with the guide in your language:
+[Deutsch](docs/plugins-mit-vscode-und-maven.de.md) ·
+[English](docs/plugins-with-vscode-and-maven.en.md).
+
 ## Files included
 
 - [.github/workflows/ci.yml](.github/workflows/ci.yml)
@@ -25,6 +29,9 @@ Use this repository as template for new Rising World Plugins.
 
 ## Baseline behavior
 
+- Builds with JDK 25 (`--release 25`) against the bundled Rising World PluginAPI
+  0.9.3.2 JAR. Refresh `libs/PluginAPI.jar` from the target game installation
+  when its API changes, and keep the POM and CI API coordinates aligned.
 - Requires `rw-plugin-oz-tools`.
 - Uses the shared file watcher path by implementing `FileChangeListener`; changes
   to the active world-scoped `settings.<world>.json` reload plugin settings.
