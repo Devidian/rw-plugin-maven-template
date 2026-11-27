@@ -1,6 +1,8 @@
 package de.omegazirkel.risingworld.template.runtime;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.omegazirkel.risingworld.MavenTemplate;
 import de.omegazirkel.risingworld.template.PluginGUI;
@@ -29,6 +31,7 @@ public final class TemplatePluginRuntime {
     private final I18n i18n;
     private final PluginGUI gui;
     private final TemplatePlayerEventHandler events;
+    private final List<Runnable> uiRegistrations = new ArrayList<>();
 
     public TemplatePluginRuntime(MavenTemplate plugin) {
         this.plugin = plugin;
@@ -41,8 +44,8 @@ public final class TemplatePluginRuntime {
 
     public void enable() {
         settings.initSettings();
-        PluginMenuManager.registerPluginMenu(new MenuItem(pluginName, "maven-template", "Template Plugin",
-                (Player player) -> gui.openMainMenu(player)));
+        uiRegistrations.add(PluginMenuManager.registerScopedPluginMenu(
+                new MenuItem(pluginName, "maven-template", "Template Plugin", gui::openMainMenu)));
         PluginShortcutVisibility.register(pluginName, player -> true);
         InventoryOverlayButtons.registerButton(pluginName, "Open", "maven-template",
                 event -> gui.openMainMenu(event.getPlayer()));
@@ -59,14 +62,18 @@ public final class TemplatePluginRuntime {
         });
         String version = plugin.getDescription("version");
         PluginInfoStatusProviders.registerProvider(new TemplatePluginInfoStatusProvider(pluginName, version, COMMAND));
-        PlayerPluginSettingsOverlay.registerPlayerPluginSettings(new TemplatePlayerPluginSettings(pluginName, version));
-        PlayerPluginSettingsOverlay.registerPlayerPluginData(new TemplatePlayerPluginData(pluginName, version));
-        PlayerPluginSettingsOverlay.registerPlayerPluginAdminSettings(new PlayerPluginAdminSettings(pluginName, version,
-                settings::adminSettingsEntries, settings::initSettings));
+        uiRegistrations.add(PlayerPluginSettingsOverlay.registerScopedPlayerPluginSettings(
+                new TemplatePlayerPluginSettings(pluginName, version)));
+        uiRegistrations.add(PlayerPluginSettingsOverlay.registerScopedPlayerPluginData(
+                new TemplatePlayerPluginData(pluginName, version)));
+        uiRegistrations.add(PlayerPluginSettingsOverlay.registerScopedPlayerPluginAdminSettings(
+                new PlayerPluginAdminSettings(pluginName, version, settings::adminSettingsEntries, settings::initSettings)));
         MavenTemplate.logger().info("✅ " + plugin.getName() + " Plugin is enabled version:" + version);
     }
 
     public void disable() {
+        uiRegistrations.forEach(Runnable::run);
+        uiRegistrations.clear();
         InventoryOverlayButtons.unregisterButtons(pluginName);
         PluginShortcutVisibility.unregister(pluginName);
         SharedIndicators.unregisterProvider(pluginName);

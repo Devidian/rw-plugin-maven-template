@@ -17,3 +17,4 @@ Canonical standalone Maven scaffold for Rising World plugins. The [plugin descri
 ## Dependencies
 
 - `rw-plugin-oz-tools/shared-api` — build dependency. [Evidence](../pom.xml)
+- `rw-plugin-oz-tools/ui-settings` — the runtime retains scoped menu and provider registrations and retires them on disable. [Runtime](../src/de/omegazirkel/risingworld/template/runtime/TemplatePluginRuntime.java)

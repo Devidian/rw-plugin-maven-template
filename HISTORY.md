@@ -2,6 +2,11 @@
 
 <https://www.conventionalcommits.org/en/v1.0.0/>
 
+## [0.2.0] - 2026-11-27 | Scoped Tools UI registration
+
+- Release the template menu and settings, data and admin providers when the plugin is disabled. Requires OZ Tools 0.30.0.
+- The Java 25 template includes Rising World PluginAPI 0.9.3.2.
+
 ## [0.1.0] - 2026-09-23 | JSON-only template runtime
 
 - change: new plugins use the JSON-only world-settings lifecycle from OZ Tools and no longer include a legacy Properties reader.
